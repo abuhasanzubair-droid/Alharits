@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nur Al-Islam — Cahaya Petunjuk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:       #C8963E;
+      --gold-light: #E8C06A;
+      --gold-pale:  #F5E6C0;
+      --emerald:    #1A4A3A;
+      --emerald-mid:#2B6B52;
+      --emerald-light:#3D9970;
+      --cream:      #FAF6EE;
+      --ink:        #1C1912;
+      --text-muted: #6B5E45;
+      --white:      #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: .4;
+    }
+
+    /* ─── GEOMETRIC PATTERN SVG ─── */
+    .pattern-bg {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C8963E' stroke-width='0.4' opacity='0.25'%3E%3Cpolygon points='40,2 78,21 78,59 40,78 2,59 2,21'/%3E%3Cpolygon points='40,14 66,28 66,52 40,66 14,52 14,28'/%3E%3Cpolygon points='40,26 54,34 54,46 40,54 26,46 26,34'/%3E%3Cline x1='40' y1='2' x2='40' y2='78'/%3E%3Cline x1='2' y1='21' x2='78' y2='59'/%3E%3Cline x1='78' y1='21' x2='2' y2='59'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 80px 80px;
+      opacity: .5;
+      pointer-events: none;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 60px;
+      background: rgba(250,246,238,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,150,62,.25);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(26,74,58,.12); }
+
+    .nav-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.15rem; color: var(--emerald);
+      letter-spacing: .05em;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo .moon { font-size: 1.4rem; }
+
+    .nav-links { display: flex; gap: 38px; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text-muted);
+      text-decoration: none; position: relative; transition: color .25s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1.5px; background: var(--gold);
+      transform: scaleX(0); transform-origin: left; transition: transform .3s;
+    }
+    .nav-links a:hover { color: var(--emerald); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--emerald) 0%, #0D2B22 60%, #091A14 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+      padding: 120px 24px 80px;
+    }
+
+    #hero .pattern-bg { opacity: .2; }
+
+    /* Crescent + Star SVG */
+    .hero-emblem {
+      width: 140px; height: 140px; margin-bottom: 36px;
+      animation: floatEmblem 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px rgba(200,150,62,.45));
+    }
+    @keyframes floatEmblem {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-12px) rotate(3deg); }
+    }
+
+    .hero-bismillah {
+      font-family: 'Amiri', serif; font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--gold-light); letter-spacing: .04em; line-height: 1.3;
+      margin-bottom: 20px;
+      animation: fadeUp .9s ease both;
+    }
+    .hero-subtitle {
+      font-family: 'Raleway', sans-serif; font-weight: 300;
+      font-size: clamp(.8rem, 2vw, 1rem); letter-spacing: .35em;
+      text-transform: uppercase; color: rgba(232,192,106,.6);
+      margin-bottom: 50px;
+      animation: fadeUp .9s .15s ease both;
+    }
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      color: var(--white); line-height: 1.1;
+      animation: fadeUp .9s .3s ease both;
+      text-shadow: 0 0 60px rgba(200,150,62,.3);
+    }
+    .hero-title span { color: var(--gold); }
+    .hero-desc {
+      max-width: 540px; margin: 28px auto 52px;
+      font-size: 1rem; line-height: 1.8; color: rgba(255,255,255,.65);
+      font-weight: 300; animation: fadeUp .9s .45s ease both;
+    }
+    .hero-cta {
+      display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .9s .6s ease both;
+    }
+    .btn {
+      padding: 14px 36px; border-radius: 2px; font-family: 'Raleway', sans-serif;
+      font-weight: 600; font-size: .82rem; letter-spacing: .15em;
+      text-transform: uppercase; cursor: pointer; text-decoration: none;
+      transition: all .3s; border: none;
+    }
+    .btn-gold {
+      background: var(--gold); color: var(--ink);
+      box-shadow: 0 6px 30px rgba(200,150,62,.4);
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 10px 40px rgba(200,150,62,.6); }
+    .btn-outline {
+      background: transparent; color: var(--gold-light);
+      border: 1.5px solid rgba(200,150,62,.5);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(200,150,62,.08); transform: translateY(-2px); }
+
+    /* Stars */
+    .stars { position: absolute; inset: 0; pointer-events: none; }
+    .star {
+      position: absolute; background: white; border-radius: 50%;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    }
+    @keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:.9} }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,.3); font-size: .7rem; letter-spacing: .2em;
+      text-transform: uppercase; animation: fadeUp 1s 1s both;
+    }
+    .scroll-hint .arrow {
+      width: 20px; height: 20px; border-right: 1.5px solid rgba(200,150,62,.5);
+      border-bottom: 1.5px solid rgba(200,150,62,.5);
+      transform: rotate(45deg); animation: bounce 1.6s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(6px)} }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 110px 24px; }
+    .section-label {
+      font-size: .7rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px; display: block;
+    }
+    .section-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      color: var(--emerald); line-height: 1.2; margin-bottom: 20px;
+    }
+    .divider {
+      width: 60px; height: 2px; background: var(--gold);
+      margin: 0 auto 40px; position: relative;
+    }
+    .divider::before, .divider::after {
+      content: '◆'; position: absolute; top: 50%; transform: translateY(-50%);
+      color: var(--gold); font-size: .5rem;
+    }
+    .divider::before { right: calc(100% + 6px); }
+    .divider::after  { left:  calc(100% + 6px); }
+
+    /* ─── AYAT SECTION ─── */
+    #ayat {
+      background: var(--white); text-align: center;
+    }
+    .ayat-card {
+      max-width: 760px; margin: 0 auto;
+      background: linear-gradient(135deg, var(--emerald) 0%, #0D2B22 100%);
+      border-radius: 4px; padding: 60px 48px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 20px 80px rgba(26,74,58,.25);
+    }
+    .ayat-card .pattern-bg { opacity: .08; }
+    .ayat-arabic {
+      font-family: 'Amiri', serif; font-size: clamp(1.6rem, 4vw, 2.6rem);
+      color: var(--gold-light); line-height: 1.7; direction: rtl;
+      margin-bottom: 28px; position: relative;
+    }
+    .ayat-latin {
+      font-style: italic; color: rgba(255,255,255,.7);
+      font-size: .95rem; line-height: 1.8; margin-bottom: 16px; position: relative;
+    }
+    .ayat-ref {
+      font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); position: relative;
+    }
+    .quote-mark {
+      font-family: 'Amiri', serif; font-size: 6rem; color: rgba(200,150,62,.12);
+      position: absolute; top: 10px; left: 30px; line-height: 1;
+    }
+
+    /* ─── PILAR ISLAM ─── */
+    #pilar { background: var(--cream); text-align: center; }
+    .pillars-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 28px; max-width: 1000px; margin: 0 auto;
+    }
+    .pillar-card {
+      background: var(--white); border: 1px solid rgba(200,150,62,.18);
+      border-radius: 4px; padding: 40px 24px;
+      transition: all .35s; position: relative; overflow: hidden; cursor: default;
+    }
+    .pillar-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg, var(--emerald) 0%, #0D2B22 100%);
+      opacity: 0; transition: opacity .35s;
+    }
+    .pillar-card:hover::before { opacity: 1; }
+    .pillar-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(26,74,58,.2); border-color: transparent; }
+    .pillar-card:hover .pillar-num,
+    .pillar-card:hover .pillar-name,
+    .pillar-card:hover .pillar-desc { color: var(--white); }
+    .pillar-card:hover .pillar-icon { filter: brightness(0) invert(1); }
+    .pillar-num {
+      font-family: 'Cinzel Decorative', serif; font-size: 2rem;
+      color: var(--gold); position: relative; transition: color .35s;
+    }
+    .pillar-icon { font-size: 2rem; margin: 12px 0; position: relative; transition: filter .35s; }
+    .pillar-name {
+      font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--emerald);
+      font-weight: 700; margin-bottom: 8px; position: relative; transition: color .35s;
+    }
+    .pillar-desc {
+      font-size: .82rem; color: var(--text-muted); line-height: 1.6;
+      position: relative; transition: color .35s;
+    }
+
+    /* ─── JADWAL SHOLAT ─── */
+    #sholat {
+      background: linear-gradient(160deg, #0D2B22 0%, var(--emerald) 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    #sholat .pattern-bg { opacity: .1; }
+    #sholat .section-title { color: var(--gold-light); }
+    #sholat .section-label { color: rgba(200,150,62,.7); }
+
+    .sholat-location {
+      color: rgba(255,255,255,.6); font-size: .85rem; margin-bottom: 40px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .sholat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: 16px; max-width: 900px; margin: 0 auto;
+    }
+    .sholat-card {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(200,150,62,.2);
+      border-radius: 4px; padding: 28px 16px; transition: all .3s;
+    }
+    .sholat-card.active {
+      background: var(--gold); border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(200,150,62,.4);
+    }
+    .sholat-card:not(.active):hover { background: rgba(255,255,255,.12); transform: translateY(-3px); }
+    .sholat-name {
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.5); margin-bottom: 10px;
+    }
+    .sholat-card.active .sholat-name { color: var(--ink); }
+    .sholat-time {
+      font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--gold-light);
+    }
+    .sholat-card.active .sholat-time { color: var(--ink); }
+    .sholat-icon { font-size: 1.4rem; margin-bottom: 8px; }
+
+    /* ─── ARTIKEL ─── */
+    #artikel { background: var(--cream); }
+    .artikel-inner { max-width: 1100px; margin: 0 auto; }
+    .artikel-header { text-align: center; margin-bottom: 60px; }
+    .artikel-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      gap: 32px;
+    }
+    .artikel-card {
+      background: var(--white); border-radius: 4px; overflow: hidden;
+      border: 1px solid rgba(200,150,62,.12);
+      transition: all .35s; display: flex; flex-direction: column;
+    }
+    .artikel-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(26,74,58,.12); }
+    .artikel-thumb {
+      height: 200px; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--emerald), #0D2B22);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .artikel-thumb .thumb-icon { font-size: 4rem; opacity: .4; }
+    .artikel-thumb .thumb-pattern { position: absolute; inset: 0; }
+    .artikel-thumb-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+      background: linear-gradient(to top, rgba(0,0,0,.4), transparent);
+    }
+    .artikel-tag {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--gold); color: var(--ink);
+      font-size: .65rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+    }
+    .artikel-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+    .artikel-date {
+      font-size: .72rem; color: var(--text-muted); letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .artikel-judul {
+      font-family: 'Amiri', serif; font-size: 1.25rem; color: var(--emerald);
+      line-height: 1.4; margin-bottom: 12px; font-weight: 700;
+    }
+    .artikel-ringkas { font-size: .85rem; color: var(--text-muted); line-height: 1.7; flex: 1; }
+    .artikel-link {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 20px;
+      font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gold); text-decoration: none;
+      transition: gap .25s;
+    }
+    .artikel-link:hover { gap: 10px; }
+
+    /* ─── GALERI MASJID ─── */
+    #galeri {
+      background: var(--white); text-align: center; padding: 110px 0;
+    }
+    .galeri-header { padding: 0 24px; margin-bottom: 50px; }
+    .galeri-track-wrap { overflow: hidden; position: relative; }
+    .galeri-track-wrap::before, .galeri-track-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+    }
+    .galeri-track-wrap::before { left: 0; background: linear-gradient(to right, var(--white), transparent); }
+    .galeri-track-wrap::after  { right: 0; background: linear-gradient(to left, var(--white), transparent); }
+    .galeri-track {
+      display: flex; gap: 24px; width: max-content;
+      animation: slide 28s linear infinite;
+    }
+    .galeri-track:hover { animation-play-state: paused; }
+    @keyframes slide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .galeri-item {
+      width: 280px; height: 200px; border-radius: 4px; overflow: hidden;
+      flex-shrink: 0; position: relative; cursor: pointer;
+      background: linear-gradient(135deg, var(--emerald), #0D2B22);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(200,150,62,.15); transition: transform .3s;
+    }
+    .galeri-item:hover { transform: scale(1.03); }
+    .galeri-item .g-icon { font-size: 3.5rem; opacity: .25; }
+    .galeri-item .g-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.7), transparent);
+      padding: 20px 16px 14px;
+      font-size: .75rem; color: rgba(255,255,255,.8); font-weight: 500;
+      letter-spacing: .05em; text-align: left;
+    }
+    .galeri-item .g-pattern { position: absolute; inset: 0; }
+
+    /* ─── DZKIR COUNTER ─── */
+    #dzikir {
+      background: linear-gradient(160deg, var(--emerald), #0D2B22);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    #dzikir .pattern-bg { opacity: .08; }
+    #dzikir .section-title { color: var(--white); }
+    #dzikir .section-label { color: rgba(200,150,62,.7); }
+
+    .dzikir-display {
+      max-width: 500px; margin: 0 auto 50px;
+    }
+    .dzikir-arabic {
+      font-family: 'Amiri', serif; font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--gold-light); line-height: 1.5; direction: rtl; margin-bottom: 10px;
+    }
+    .dzikir-latin {
+      font-size: .9rem; color: rgba(255,255,255,.6); font-style: italic; margin-bottom: 6px;
+    }
+    .dzikir-arti {
+      font-size: .82rem; color: rgba(255,255,255,.45); margin-bottom: 40px;
+    }
+    .counter-ring {
+      width: 180px; height: 180px; border-radius: 50%;
+      border: 3px solid rgba(200,150,62,.25);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto 28px; position: relative; cursor: pointer;
+      transition: all .2s; background: rgba(200,150,62,.05);
+      box-shadow: 0 0 40px rgba(200,150,62,.1);
+    }
+    .counter-ring:hover { border-color: var(--gold); box-shadow: 0 0 60px rgba(200,150,62,.25); }
+    .counter-ring:active { transform: scale(.96); }
+    .counter-ring svg {
+      position: absolute; inset: -3px; width: calc(100% + 6px); height: calc(100% + 6px);
+    }
+    .counter-num {
+      font-family: 'Cinzel Decorative', serif; font-size: 3rem; color: var(--gold);
+      line-height: 1; position: relative;
+    }
+    .counter-label-inner {
+      font-size: .65rem; color: rgba(255,255,255,.4); letter-spacing: .15em;
+      text-transform: uppercase; margin-top: 4px; position: relative;
+    }
+    .counter-controls {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+    .dzikir-tabs {
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px;
+    }
+    .dzikir-tab {
+      padding: 8px 20px; border-radius: 2px; cursor: pointer;
+      font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(255,255,255,.07); color: rgba(255,255,255,.5);
+      border: 1px solid rgba(200,150,62,.15); transition: all .25s;
+    }
+    .dzikir-tab.active {
+      background: var(--gold); color: var(--ink); border-color: var(--gold);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #070F0C; padding: 60px 24px 30px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    footer .pattern-bg { opacity: .07; }
+    .footer-logo {
+      font-family: 'Cinzel Decorative', serif; font-size: 1.3rem; color: var(--gold);
+      margin-bottom: 8px; position: relative;
+    }
+    .footer-tagline {
+      font-family: 'Amiri', serif; font-size: 1.1rem; color: rgba(200,150,62,.5);
+      margin-bottom: 36px; position: relative;
+    }
+    .footer-links {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 48px; position: relative;
+    }
+    .footer-links a {
+      font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.3); text-decoration: none; transition: color .25s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-divider {
+      width: 100px; height: 1px; background: linear-gradient(to right, transparent, rgba(200,150,62,.4), transparent);
+      margin: 0 auto 24px; position: relative;
+    }
+    .footer-copy {
+      font-size: .72rem; color: rgba(255,255,255,.2); position: relative;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── MOBILE ─── */
+    @media(max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 20px; }
+      .nav-links a { font-size: .72rem; }
+      section { padding: 80px 20px; }
+      .ayat-card { padding: 40px 24px; }
+    }
+    @media(max-width: 480px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <span class="moon">☽</span>
+    Nur Al-Islam
+  </div>
+  <ul class="nav-links">
+    <li><a href="#ayat">Al-Qur'an</a></li>
+    <li><a href="#pilar">Rukun Islam</a></li>
+    <li><a href="#sholat">Jadwal</a></li>
+    <li><a href="#dzikir">Dzikir</a></li>
+    <li><a href="#artikel">Artikel</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="pattern-bg"></div>
+  <div class="stars" id="stars"></div>
+
+  <!-- Crescent SVG emblem -->
+  <svg class="hero-emblem" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#E8C06A" stop-opacity=".3"/>
+        <stop offset="100%" stop-color="#C8963E" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="70" cy="70" r="68" fill="url(#glow)"/>
+    <!-- outer circle border -->
+    <circle cx="70" cy="70" r="60" stroke="#C8963E" stroke-width="1" fill="none" opacity=".4"/>
+    <!-- crescent -->
+    <path d="M70 20 C95 20 115 42 115 70 C115 98 95 120 70 120 C85 108 95 90 95 70 C95 50 85 32 70 20Z" fill="#C8963E" opacity=".85"/>
+    <path d="M70 20 C55 28 47 46 47 70 C47 94 55 112 70 120 C55 110 38 92 38 70 C38 48 55 30 70 20Z" fill="#0D2B22"/>
+    <!-- star -->
+    <polygon points="100,55 103,64 113,64 105,70 108,79 100,73 92,79 95,70 87,64 97,64" fill="#C8963E"/>
+    <!-- geometric ring details -->
+    <circle cx="70" cy="70" r="55" stroke="#C8963E" stroke-width=".5" fill="none" stroke-dasharray="4 8" opacity=".3"/>
+  </svg>
+
+  <p class="hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+  <p class="hero-subtitle">Bismillahirrahmanirrahim</p>
+  <h1 class="hero-title">Nur Al-<span>Islam</span></h1>
+  <p class="hero-desc">
+    Cahaya Islam menerangi setiap langkah kehidupan. Temukan ketenangan sejati, ilmu yang bermanfaat, dan kedekatan dengan Allah ﷻ.
+  </p>
+  <div class="hero-cta">
+    <a href="#ayat" class="btn btn-gold">Baca Al-Qur'an</a>
+    <a href="#artikel" class="btn btn-outline">Jelajahi Artikel</a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ─── AYAT ─── -->
+<section id="ayat">
+  <div class="reveal">
+    <span class="section-label">Firman Allah ﷻ</span>
+    <h2 class="section-title">Ayat Pilihan</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="ayat-card reveal">
+    <div class="pattern-bg"></div>
+    <div class="quote-mark">"</div>
+    <p class="ayat-arabic" id="ayat-arabic">
+      وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُۚ إِنَّ اللَّهَ بَالِغُ أَمْرِهِۚ قَدْ جَعَلَ اللَّهُ لِكُلِّ شَيْءٍ قَدْرًا
+    </p>
+    <p class="ayat-latin" id="ayat-latin">
+      Wa man yatawakkal 'alallāhi fahuwa ḥasbuh, innallāha bālighu amrih, qad ja'alallāhu likulli syai'in qadrā
+    </p>
+    <p id="ayat-terjemah" style="color:rgba(255,255,255,.55);font-size:.88rem;line-height:1.7;margin-bottom:16px;position:relative;">
+      "Dan barang siapa bertawakal kepada Allah, niscaya Allah akan mencukupkan (keperluan)nya. Sesungguhnya Allah melaksanakan urusan-Nya. Sungguh, Allah telah mengadakan ketentuan bagi setiap sesuatu."
+    </p>
+    <p class="ayat-ref" id="ayat-ref">QS. At-Talaq (65) : 3</p>
+  </div>
+  <div style="text-align:center;margin-top:24px;" class="reveal">
+    <button class="btn btn-gold" onclick="gantiAyat()" style="font-size:.78rem;padding:12px 30px;">
+      ✦ Ayat Berikutnya
+    </button>
+  </div>
+</section>
+
+<!-- ─── PILAR ISLAM ─── -->
+<section id="pilar">
+  <span class="section-label reveal">Fondasi Agama</span>
+  <h2 class="section-title reveal">Lima Rukun Islam</h2>
+  <div class="divider reveal"></div>
+  <div class="pillars-grid">
+    <div class="pillar-card reveal">
+      <div class="pillar-num">١</div>
+      <div class="pillar-icon">🕌</div>
+      <div class="pillar-name">Syahadat</div>
+      <div class="pillar-desc">Bersaksi tiada Tuhan selain Allah dan Muhammad ﷺ adalah Rasul-Nya</div>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-num">٢</div>
+      <div class="pillar-icon">🙏</div>
+      <div class="pillar-name">Sholat</div>
+      <div class="pillar-desc">Mendirikan sholat lima waktu sebagai tiang agama dan penghubung hamba dengan Rabb-nya</div>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-num">٣</div>
+      <div class="pillar-icon">💛</div>
+      <div class="pillar-name">Zakat</div>
+      <div class="pillar-desc">Menunaikan zakat sebagai penyucian harta dan bentuk kepedulian sosial</div>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-num">٤</div>
+      <div class="pillar-icon">🌙</div>
+      <div class="pillar-name">Puasa</div>
+      <div class="pillar-desc">Berpuasa di bulan Ramadan untuk melatih kesabaran dan ketaqwaan</div>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-num">٥</div>
+      <div class="pillar-icon">🕋</div>
+      <div class="pillar-name">Haji</div>
+      <div class="pillar-desc">Menunaikan ibadah haji ke Baitullah bagi yang mampu sekali seumur hidup</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── JADWAL SHOLAT ─── -->
+<section id="sholat">
+  <div class="pattern-bg"></div>
+  <span class="section-label reveal">Waktu Ibadah</span>
+  <h2 class="section-title reveal">Jadwal Sholat</h2>
+  <div class="divider reveal"></div>
+  <p class="sholat-location reveal">
+    📍 <span id="city-name">Indonesia</span> &nbsp;·&nbsp; <span id="tanggal-sholat"></span>
+  </p>
+  <div class="sholat-grid reveal" id="sholat-grid">
+    <div class="sholat-card" data-name="subuh">
+      <div class="sholat-icon">🌅</div>
+      <div class="sholat-name">Subuh</div>
+      <div class="sholat-time" id="t-subuh">04:32</div>
+    </div>
+    <div class="sholat-card" data-name="dzuhur">
+      <div class="sholat-icon">☀️</div>
+      <div class="sholat-name">Dzuhur</div>
+      <div class="sholat-time" id="t-dzuhur">11:58</div>
+    </div>
+    <div class="sholat-card" data-name="ashar">
+      <div class="sholat-icon">🌤️</div>
+      <div class="sholat-name">Ashar</div>
+      <div class="sholat-time" id="t-ashar">15:22</div>
+    </div>
+    <div class="sholat-card" data-name="maghrib">
+      <div class="sholat-icon">🌆</div>
+      <div class="sholat-name">Maghrib</div>
+      <div class="sholat-time" id="t-maghrib">17:55</div>
+    </div>
+    <div class="sholat-card" data-name="isya">
+      <div class="sholat-icon">🌙</div>
+      <div class="sholat-name">Isya</div>
+      <div class="sholat-time" id="t-isya">19:10</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ARTIKEL ─── -->
+<section id="artikel">
+  <div class="artikel-inner">
+    <div class="artikel-header">
+      <span class="section-label reveal">Ilmu & Hikmah</span>
+      <h2 class="section-title reveal">Artikel Terbaru</h2>
+      <div class="divider reveal"></div>
+    </div>
+    <div class="artikel-grid">
+      <div class="artikel-card reveal">
+        <div class="artikel-thumb">
+          <div class="pattern-bg thumb-pattern"></div>
+          <span class="thumb-icon">📖</span>
+          <div class="artikel-thumb-overlay"></div>
+          <span class="artikel-tag">Tafsir</span>
+        </div>
+        <div class="artikel-body">
+          <p class="artikel-date">18 April 2026</p>
+          <h3 class="artikel-judul">Memahami Makna Tawakkal yang Sesungguhnya</h3>
+          <p class="artikel-ringkas">Tawakkal bukan berarti pasrah tanpa usaha. Ia adalah perpaduan antara ikhtiar maksimal dan kepasrahan total kepada Allah ﷻ setelah segala upaya dilakukan.</p>
+          <a href="#" class="artikel-link">Baca Selengkapnya →</a>
+        </div>
+      </div>
+      <div class="artikel-card reveal">
+        <div class="artikel-thumb">
+          <div class="pattern-bg thumb-pattern"></div>
+          <span class="thumb-icon">🌙</span>
+          <div class="artikel-thumb-overlay"></div>
+          <span class="artikel-tag">Ibadah</span>
+        </div>
+        <div class="artikel-body">
+          <p class="artikel-date">15 April 2026</p>
+          <h3 class="artikel-judul">Keutamaan Sholat Tahajud di Sepertiga Malam</h3>
+          <p class="artikel-ringkas">Allah ﷻ turun ke langit dunia di sepertiga malam terakhir. Inilah waktu terbaik untuk bermunajat, memohon ampunan, dan meraih kedekatan ilahi.</p>
+          <a href="#" class="artikel-link">Baca Selengkapnya →</a>
+        </div>
+      </div>
+      <div class="artikel-card reveal">
+        <div class="artikel-thumb">
+          <div class="pattern-bg thumb-pattern"></div>
+          <span class="thumb-icon">🕌</span>
+          <div class="artikel-thumb-overlay"></div>
+          <span class="artikel-tag">Sejarah</span>
+        </div>
+        <div class="artikel-body">
+          <p class="artikel-date">12 April 2026</p>
+          <h3 class="artikel-judul">Peradaban Islam: Warisan Ilmu yang Mengubah Dunia</h3>
+          <p class="artikel-ringkas">Pada era Keemasan Islam, para ilmuwan Muslim meletakkan fondasi matematika, astronomi, kedokteran, dan filsafat yang menjadi pilar peradaban modern.</p>
+          <a href="#" class="artikel-link">Baca Selengkapnya →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GALERI ─── -->
+<section id="galeri">
+  <div class="galeri-header">
+    <span class="section-label reveal">Keindahan Islam</span>
+    <h2 class="section-title reveal">Arsitektur Masjid Dunia</h2>
+    <div class="divider reveal"></div>
+  </div>
+  <div class="galeri-track-wrap reveal">
+    <div class="galeri-track" id="galeri-track">
+      <!-- Cards generated via JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ─── DZIKIR ─── -->
+<section id="dzikir">
+  <div class="pattern-bg"></div>
+  <span class="section-label reveal">Ingat Allah Selalu</span>
+  <h2 class="section-title reveal">Penghitung Dzikir</h2>
+  <div class="divider reveal"></div>
+
+  <div class="dzikir-tabs reveal" id="dzikir-tabs">
+    <div class="dzikir-tab active" data-idx="0">Subhanallah</div>
+    <div class="dzikir-tab" data-idx="1">Alhamdulillah</div>
+    <div class="dzikir-tab" data-idx="2">Allahu Akbar</div>
+    <div class="dzikir-tab" data-idx="3">Astaghfirullah</div>
+  </div>
+
+  <div class="dzikir-display reveal">
+    <p class="dzikir-arabic" id="dz-arabic">سُبْحَانَ اللَّه</p>
+    <p class="dzikir-latin" id="dz-latin">Subhanallah</p>
+    <p class="dzikir-arti" id="dz-arti">Maha Suci Allah</p>
+  </div>
+
+  <div class="counter-ring reveal" id="counter-btn" onclick="hitungDzikir()">
+    <svg viewBox="0 0 186 186">
+      <circle cx="93" cy="93" r="90" stroke="rgba(200,150,62,0.15)" stroke-width="3" fill="none"/>
+      <circle cx="93" cy="93" r="90" stroke="#C8963E" stroke-width="3" fill="none"
+        stroke-dasharray="565" id="progress-circle"
+        stroke-dashoffset="565" stroke-linecap="round"
+        transform="rotate(-90 93 93)"/>
+    </svg>
+    <span class="counter-num" id="counter-num">0</span>
+    <span class="counter-label-inner">Ketuk untuk dzikir</span>
+  </div>
+
+  <div class="counter-controls reveal">
+    <button class="btn btn-outline" onclick="resetDzikir()" style="color:rgba(200,150,62,.7);border-color:rgba(200,150,62,.3);font-size:.75rem;padding:10px 24px;">
+      ↺ Reset
+    </button>
+    <button class="btn btn-gold" onclick="selesaiDzikir()" style="font-size:.75rem;padding:10px 24px;">
+      ✓ Selesai 33×
+    </button>
+  </div>
+  <p style="color:rgba(255,255,255,.3);font-size:.75rem;margin-top:20px;" id="dzikir-total-display"></p>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="pattern-bg"></div>
+  <div class="footer-logo">☽ Nur Al-Islam</div>
+  <p class="footer-tagline">نُورٌ عَلَىٰ نُور — Cahaya di atas Cahaya</p>
+  <div class="footer-links">
+    <a href="#">Al-Qur'an</a>
+    <a href="#">Hadits</a>
+    <a href="#">Kajian</a>
+    <a href="#">Doa & Dzikir</a>
+    <a href="#">Tentang Kami</a>
+  </div>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© 2026 Nur Al-Islam · Dibuat dengan ❤️ untuk umat · جَزَاكَ اللَّهُ خَيْرًا</p>
+</footer>
+
+<script>
+/* ─── STARS ─── */
+(function(){
+  const c = document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s = document.createElement('div');
+    const sz = Math.random()*2.5+.5;
+    s.className='star';
+    s.style.cssText=`
+      width:${sz}px;height:${sz}px;
+      top:${Math.random()*100}%;left:${Math.random()*100}%;
+      --dur:${(Math.random()*4+2).toFixed(1)}s;
+      animation-delay:${(Math.random()*5).toFixed(1)}s;
+    `;
+    c.appendChild(s);
+  }
+})();
+
+/* ─── NAVBAR SCROLL ─── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50);
+});
+
+/* ─── SCROLL REVEAL ─── */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:.15});
+revealEls.forEach(el=>io.observe(el));
+
+/* ─── AYAT DATA ─── */
+const ayatList = [
+  {
+    arabic:'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُۚ إِنَّ اللَّهَ بَالِغُ أَمْرِهِۚ قَدْ جَعَلَ اللَّهُ لِكُلِّ شَيْءٍ قَدْرًا',
+    latin:'Wa man yatawakkal \'alallāhi fahuwa ḥasbuh...',
+    terjemah:'"Dan barang siapa bertawakal kepada Allah, niscaya Allah akan mencukupkan (keperluan)nya."',
+    ref:'QS. At-Talaq (65) : 3'
+  },
+  {
+    arabic:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا',
+    latin:'Fa-inna ma\'al-\'usri yusrā, inna ma\'al-\'usri yusrā',
+    terjemah:'"Maka sesungguhnya bersama kesulitan ada kemudahan. Sesungguhnya bersama kesulitan ada kemudahan."',
+    ref:'QS. Al-Insyirah (94) : 5-6'
+  },
+  {
+    arabic:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ',
+    latin:'Allāhu lā ilāha illā huwal-ḥayyul-qayyūm...',
+    terjemah:'"Allah, tidak ada tuhan selain Dia, Yang Mahahidup, Yang terus-menerus mengurus (makhluk-Nya)."',
+    ref:'QS. Al-Baqarah (2) : 255 — Ayat Kursi'
+  },
+  {
+    arabic:'وَلَنَبْلُوَنَّكُم بِشَيْءٍ مِّنَ الْخَوْفِ وَالْجُوعِ وَنَقْصٍ مِّنَ الْأَمْوَٰلِ وَالْأَنفُسِ وَالثَّمَرَٰتِۗ وَبَشِّرِ الصَّابِرِينَ',
+    latin:'Wa lanabluwannakum bisyai\'im minal-khawfi wal-jū\'i...',
+    terjemah:'"Dan Kami pasti akan menguji kamu dengan sedikit ketakutan, kelaparan, kekurangan harta, jiwa, dan buah-buahan. Dan sampaikanlah kabar gembira kepada orang-orang yang sabar."',
+    ref:'QS. Al-Baqarah (2) : 155'
+  },
+  {
+    arabic:'يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ',
+    latin:'Yā ayyuhallażīna āmanusta\'īnū biṣ-ṣabri waṣ-ṣalāh...',
+    terjemah:'"Wahai orang-orang yang beriman! Mohonlah pertolongan (kepada Allah) dengan sabar dan sholat. Sungguh, Allah beserta orang-orang yang sabar."',
+    ref:'QS. Al-Baqarah (2) : 153'
+  }
+];
+let ayatIdx = 0;
+function gantiAyat(){
+  ayatIdx = (ayatIdx+1)%ayatList.length;
+  const a = ayatList[ayatIdx];
+  const fields = ['ayat-arabic','ayat-latin','ayat-ref'];
+  const values = [a.arabic, a.latin, a.ref];
+  document.getElementById('ayat-terjemah').style.opacity=0;
+  document.getElementById('ayat-arabic').style.opacity=0;
+  setTimeout(()=>{
+    document.getElementById('ayat-arabic').textContent=a.arabic;
+    document.getElementById('ayat-latin').textContent=a.latin;
+    document.getElementById('ayat-terjemah').textContent=a.terjemah;
+    document.getElementById('ayat-ref').textContent=a.ref;
+    document.getElementById('ayat-arabic').style.opacity=1;
+    document.getElementById('ayat-terjemah').style.opacity=1;
+  },300);
+}
+['ayat-arabic','ayat-terjemah'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.style.transition='opacity .3s';
+});
+
+/* ─── TANGGAL ─── */
+const hari = ['Ahad','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const now = new Date();
+document.getElementById('tanggal-sholat').textContent =
+  `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()}`;
+
+/* ─── JADWAL SHOLAT HIGHLIGHT ─── */
+(function(){
+  const times = {subuh:'04:32',dzuhur:'11:58',ashar:'15:22',maghrib:'17:55',isya:'19:10'};
+  const order = ['subuh','dzuhur','ashar','maghrib','isya'];
+  const nowMin = now.getHours()*60+now.getMinutes();
+  let active = 'isya';
+  order.forEach(n=>{
+    const [h,m] = times[n].split(':').map(Number);
+    if(nowMin >= h*60+m) active=n;
+  });
+  const cards = document.querySelectorAll('.sholat-card');
+  cards.forEach(c=>{ if(c.dataset.name===active) c.classList.add('active'); });
+})();
+
+/* ─── GALERI ─── */
+const masjids = [
+  {icon:'🕌',label:'Masjidil Haram, Makkah'},
+  {icon:'🕌',label:'Masjid Nabawi, Madinah'},
+  {icon:'🕌',label:'Al-Aqsa, Jerusalem'},
+  {icon:'🕌',label:'Sultan Ahmed, Istanbul'},
+  {icon:'🕌',label:'Hassan II, Casablanca'},
+  {icon:'🕌',label:'Sheikh Zayed, Abu Dhabi'},
+  {icon:'🕌',label:'Istiqlal, Jakarta'},
+  {icon:'🕌',label:'Faisal, Islamabad'},
+];
+const track = document.getElementById('galeri-track');
+const doubled = [...masjids,...masjids]; // infinite loop
+doubled.forEach(m=>{
+  const item = document.createElement('div');
+  item.className='galeri-item';
+  item.innerHTML=`
+    <div class="pattern-bg g-pattern"></div>
+    <span class="g-icon">${m.icon}</span>
+    <div class="g-label">${m.label}</div>
+  `;
+  track.appendChild(item);
+});
+
+/* ─── DZIKIR COUNTER ─── */
+const dzikirData = [
+  {arabic:'سُبْحَانَ اللَّه',latin:'Subhanallah',arti:'Maha Suci Allah'},
+  {arabic:'الْحَمْدُ لِلَّه',latin:'Alhamdulillah',arti:'Segala Puji Bagi Allah'},
+  {arabic:'اللَّهُ أَكْبَر',latin:'Allahu Akbar',arti:'Allah Maha Besar'},
+  {arabic:'أَسْتَغْفِرُ اللَّه',latin:'Astaghfirullah',arti:'Aku Memohon Ampun kepada Allah'},
+];
+let dCount=0, dIdx=0, dTotal=0;
+const maxCount=33;
+
+const tabs = document.querySelectorAll('.dzikir-tab');
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  dIdx=parseInt(t.dataset.idx);
+  dCount=0;
+  tabs.forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  updateDzikir();
+  updateProgress();
+}));
+
+function updateDzikir(){
+  const d=dzikirData[dIdx];
+  document.getElementById('dz-arabic').textContent=d.arabic;
+  document.getElementById('dz-latin').textContent=d.latin;
+  document.getElementById('dz-arti').textContent=d.arti;
+  document.getElementById('counter-num').textContent=dCount;
+}
+function updateProgress(){
+  const pct=dCount/maxCount;
+  const circ=565;
+  document.getElementById('progress-circle').style.strokeDashoffset=circ-(circ*pct);
+}
+function hitungDzikir(){
+  if(dCount>=maxCount) return;
+  dCount++;
+  dTotal++;
+  document.getElementById('counter-num').textContent=dCount;
+  updateProgress();
+  if(dCount===maxCount){
+    document.getElementById('counter-label-inner') && (()=>{})();
+    const btn=document.getElementById('counter-btn');
+    btn.style.borderColor='var(--gold)';
+    btn.style.boxShadow='0 0 60px rgba(200,150,62,.5)';
+    setTimeout(()=>{btn.style.borderColor='';btn.style.boxShadow='';},1500);
+  }
+  document.getElementById('dzikir-total-display').textContent=
+    dTotal>0 ? `Total dzikir sesi ini: ${dTotal}` : '';
+}
+function resetDzikir(){ dCount=0; updateDzikir(); updateProgress(); }
+function selesaiDzikir(){
+  dCount=maxCount; updateDzikir(); updateProgress();
+  document.getElementById('dzikir-total-display').textContent=
+    `Alhamdulillah! Selesai ${maxCount}× · Total sesi: ${dTotal}`;
+}
+
+// fix label reference
+document.querySelector('.counter-label-inner') && 0; // noop
+</script>
+</body>
+</html>
